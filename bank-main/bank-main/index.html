@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="./bootstrap-5.3.2-dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./css/slick.css">
+  <link rel="stylesheet" href="./css/all.min.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <link rel="stylesheet" href="./css/responsive.css">
+
+</head>
+
+<body>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bank Transfer Checkout</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+      padding: 10px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #333;
+      font-size: 22px;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 5px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    .btn {
+      margin-top: 20px;
+      width: 100%;
+      padding: 14px;
+      background-color: green;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .confirmation {
+      display: none;
+      margin-top: 25px;
+      background: #e6fff2;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+    }
+
+    .confirmation p {
+      margin: 8px 0;
+      color: #333;
+      font-size: 15px;
+    }
+
+    .qr {
+      margin-top: 15px;
+    }
+
+    .qr img {
+      width: 100%;
+      max-width: 220px;
+      height: auto;
+      border-radius: 8px;
+    }
+
+    .whatsapp {
+      display: inline-block;
+      margin-top: 15px;
+      background: #25D366;
+      color: white;
+      padding: 12px 20px;
+      text-decoration: none;
+      font-weight: bold;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    /* Tablet */
+    @media (max-width: 768px) {
+      body {
+        padding: 8px;
+      }
+
+      .container {
+        padding: 15px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      .btn, input, .whatsapp {
+        font-size: 15px;
+      }
+    }
+
+    /* Mobile */
+    @media (max-width: 480px) {
+      .container {
+        padding: 12px;
+      }
+
+      h2 {
+        font-size: 18px;
+      }
+
+      label {
+        font-size: 13px;
+      }
+
+      input, .btn {
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      .whatsapp {
+        font-size: 14px;
+        padding: 10px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h2>Checkout - Bank Transfer</h2>
+
+    <form id="checkoutForm">
+      <label>Full Name</label>
+      <input type="text" id="name" required>
+
+      <label>Email</label>
+      <input type="email" id="email" required>
+
+      <label>City</label>
+      <input type="text" required>
+
+      <label>Quantity</label>
+      <input type="number" id="qty" value="0" min="0" required>
+
+      <label>Amount (RM)</label>
+      <input type="text" id="amount" value="0.00" readonly>
+
+      <button type="submit" class="btn">Pay Now</button>
+    </form>
+
+    <div class="confirmation" id="confirmationBox">
+      <h3>✅ Payment Info</h3>
+      <p><strong>Bank:</strong> Maybank</p>
+      <p><strong>Account Name:</strong> Mohammad Shahinul Haque</p>
+      <p><strong>Account Number:</strong> 564164494694</p>
+      <p><strong>Amount:</strong> RM <span id="confirmAmount">0.00</span></p>
+
+      <div class="qr">
+        <p>📱 Scan QR to Pay</p>
+        <img src="./image/may bank.jpeg" alt="QR Code">
+      </div>
+
+      <p>📸 Please send your payment slip below.</p>
+      <a class="whatsapp" href="https://wa.me/60174704056?text=Hello%2C%20I%20have%20transferred%20payment%20for%20your%20product.%20Here%20is%20my%20receipt." target="_blank">
+        Send Proof via WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('checkoutForm');
+    const confirmation = document.getElementById('confirmationBox');
+    const amountField = document.getElementById('amount');
+    const qtyInput = document.getElementById('qty');
+    const confirmAmount = document.getElementById('confirmAmount');
+
+    const pricePerItem = 50;
+
+    qtyInput.addEventListener('input', function () {
+      const quantity = parseInt(this.value) || 0;
+      const total = quantity * pricePerItem;
+      amountField.value = total.toFixed(2);
+    });
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      form.style.display = 'none';
+      confirmation.style.display = 'block';
+      confirmAmount.textContent = amountField.value;
+    });
+  </script>
+
+</body>
+</html>
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <!-- <script src="./js/jqury all version/code.jquery.com_jquery-3.7.1.min.js"></script> -->
+  <script src="./app.js/jquery-1.12.4.min.js"></script>
+  <script src="./app.js/slick.js"></script>
+  <script src="./app.js/jquery.countdown.min.js"></script>
+  <script src="./app.js/all.min.js"></script>
+  <script src="./bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"></script>
+  <script src="./app.js/app.js"></script>
+  
+</body>
+
+</html>
